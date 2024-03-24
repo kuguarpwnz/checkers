@@ -28,3 +28,28 @@ export const getPositionsBetween = (from: Position, to: Position) => {
 		};
 	});
 };
+
+export const generateAllCaptureMoves = (position: Position, distance: number) => {
+	return Array.from({ length: distance })
+		.flatMap((_, i) => [
+			{
+				jumpOver: { y: position.y - i - 1, x: position.x + i + 1 },
+				to: { y: position.y - i - 2, x: position.x + i + 2 },
+			},
+			{
+				jumpOver: { y: position.y - i - 1, x: position.x - i - 1 },
+				to: { y: position.y - i - 2, x: position.x - i - 2 },
+			},
+			{
+				jumpOver: { y: position.y + i + 1, x: position.x + i + 1 },
+				to: { y: position.y + i + 2, x: position.x + i + 2 },
+			},
+			{
+				jumpOver: { y: position.y + i + 1, x: position.x - i - 1 },
+				to: { y: position.y + i + 2, x: position.x - i - 2 },
+			},
+		])
+		.filter((check) => {
+			return isPositionInRange(check.jumpOver) && isPositionInRange(check.to);
+		});
+};

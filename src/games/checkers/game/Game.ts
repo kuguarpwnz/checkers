@@ -2,7 +2,15 @@ import { CheckersBoardManager, CheckersGame as CheckersGame, CheckersPiece } fro
 import { BOARD_SIZE, FIRST_TURN_COLOR } from '../config';
 import { Move, Position } from '../../types';
 import { Board } from '../board/Board';
-import { getPositionsBetween, isDiagonalMove, isFarMove, isInMenMoveRange, isMoved, isPositionInRange } from './utils';
+import {
+	generateAllCaptureMoves,
+	getPositionsBetween,
+	isDiagonalMove,
+	isFarMove,
+	isInMenMoveRange,
+	isMoved,
+	isPositionInRange,
+} from './utils';
 import { ERRORS } from './errors';
 import { PIECE_COLOR, PIECE_TYPE } from '../constants';
 
@@ -71,36 +79,11 @@ export class Game implements CheckersGame {
 	}
 
 	private canCapture() {
-		const generateChecks = (position: Position, distance: number) => {
-			return Array.from({ length: distance })
-				.flatMap((_, i) => [
-					{
-						enemy: { y: position.y - i - 1, x: position.x + i + 1 },
-						slot: { y: position.y - i - 2, x: position.x + i + 2 },
-					},
-					{
-						enemy: { y: position.y - i - 1, x: position.x - i - 1 },
-						slot: { y: position.y - i - 2, x: position.x - i - 2 },
-					},
-					{
-						enemy: { y: position.y + i + 1, x: position.x + i + 1 },
-						slot: { y: position.y + i + 2, x: position.x + i + 2 },
-					},
-					{
-						enemy: { y: position.y + i + 1, x: position.x - i - 1 },
-						slot: { y: position.y + i + 2, x: position.x - i - 2 },
-					},
-				])
-				.filter((check) => {
-					return isPositionInRange(check.enemy) && isPositionInRange(check.slot);
-				});
-		};
-
-		const verifyChecks = (checks: ReturnType<typeof generateChecks>) => {
-			return checks.some((check) => {
-				if (this.board.get(check.enemy).piece === null) return false;
-				if (this.board.get(check.slot).piece !== null) return false;
-				if (this.board.get(check.enemy).piece.color === this.turn) return false;
+		const verifyChecks = (moves: ReturnType<typeof generateAllCaptureMoves>) => {
+			return moves.some((move) => {
+				if (this.board.get(move.to).piece !== null) return false;
+				if (this.board.get(move.jumpOver).piece === null) return false;
+				if (this.board.get(move.jumpOver).piece.color === this.turn) return false;
 				return true;
 			});
 		};
@@ -111,9 +94,9 @@ export class Game implements CheckersGame {
 				if (cell.piece.color !== this.turn) return false;
 
 				if (cell.piece.kind === PIECE_TYPE.MAN) {
-					return verifyChecks(generateChecks(cell, 1));
+					return verifyChecks(generateAllCaptureMoves(cell, 1));
 				} else if (cell.piece.kind === PIECE_TYPE.KING) {
-					return verifyChecks(generateChecks(cell, BOARD_SIZE - 2));
+					return verifyChecks(generateAllCaptureMoves(cell, BOARD_SIZE - 2));
 				} else {
 					return false;
 				}
