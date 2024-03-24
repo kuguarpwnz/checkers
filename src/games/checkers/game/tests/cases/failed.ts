@@ -1,5 +1,6 @@
 import { board } from './utils';
 import { ERRORS } from '../../errors';
+import { PIECE_COLOR } from '../../../constants';
 
 const FROM_OOB = [
 	{
@@ -147,7 +148,7 @@ const EMPTINESS = [
 		_ _ _ _ _ _ _ _`),
 		moves: [{ from: { y: 0, x: 1 }, to: { y: 1, x: 2 } }],
 		throws: ERRORS.TO_NOT_EMPTY,
-		turn: 'dark',
+		turn: PIECE_COLOR.DARK,
 	},
 ];
 
@@ -311,7 +312,7 @@ const MOVEMENT_CAPTURING_FARNESS_LIMIT = [
 		_ _ _ _ _ _ _ _`),
 		moves: [{ from: { y: 2, x: 1 }, to: { y: 5, x: 4 } }],
 		throws: ERRORS.MEN_MOVE_LIMIT,
-		turn: 'dark',
+		turn: PIECE_COLOR.DARK,
 	},
 	{
 		title: `Makes sure men can't go further than 2 cells diagonally when capturing (bottom left)`,
@@ -326,7 +327,7 @@ const MOVEMENT_CAPTURING_FARNESS_LIMIT = [
 		_ _ _ _ _ _ _ _`),
 		moves: [{ from: { y: 2, x: 5 }, to: { y: 5, x: 2 } }],
 		throws: ERRORS.MEN_MOVE_LIMIT,
-		turn: 'dark',
+		turn: PIECE_COLOR.DARK,
 	},
 ];
 
@@ -372,7 +373,7 @@ const MOVEMENT_BACKWARDS = [
 		_ _ _ _ _ _ _ _`),
 		moves: [{ from: { y: 4, x: 3 }, to: { y: 3, x: 4 } }],
 		throws: ERRORS.MEN_NO_MOVE_BACKWARDS,
-		turn: 'dark',
+		turn: PIECE_COLOR.DARK,
 	},
 	{
 		title: `Makes sure men can't go backwards (dark top left)`,
@@ -387,7 +388,7 @@ const MOVEMENT_BACKWARDS = [
 		_ _ _ _ _ _ _ _`),
 		moves: [{ from: { y: 4, x: 3 }, to: { y: 3, x: 2 } }],
 		throws: ERRORS.MEN_NO_MOVE_BACKWARDS,
-		turn: 'dark',
+		turn: PIECE_COLOR.DARK,
 	},
 ];
 
@@ -436,7 +437,7 @@ const WRONG_TURN_MOVEMENT = [
 		_ _ _ _ _ _ _ _`),
 		moves: [{ from: { y: 4, x: 3 }, to: { y: 2, x: 3 } }],
 		throws: ERRORS.WRONG_TURN,
-		turn: 'dark',
+		turn: PIECE_COLOR.DARK,
 	},
 ];
 
@@ -457,6 +458,66 @@ const JUMPING_OVER_ALLIES = [
 	},
 ];
 
+const MUST_CAPTURE = [
+	{
+		title: `Make sure king piece performs capturing`,
+		input: board(`
+		_ _ _ _ _ _ _ _
+		_ _ _ _ _ _ d _
+		_ _ _ _ _ _ _ _
+		_ _ _ _ _ _ _ _
+		_ _ _ _ _ _ _ _
+		_ _ _ _ _ _ _ _
+		_ _ _ _ _ _ _ _
+		L _ _ _ _ _ _ _`),
+		moves: [{ from: { y: 7, x: 0 }, to: { y: 6, x: 1 } }],
+		throws: ERRORS.MUST_CAPTURE,
+	},
+	{
+		title: `Make sure king piece performs capturing`,
+		input: board(`
+		_ _ _ _ _ _ _ _
+		_ _ _ _ _ _ L _
+		_ _ _ _ _ _ _ _
+		_ _ _ _ _ _ _ _
+		_ _ _ _ _ _ _ _
+		_ _ _ _ _ _ _ _
+		_ d _ _ _ _ _ _
+		_ _ _ _ _ _ _ _`),
+		moves: [{ from: { y: 1, x: 6 }, to: { y: 0, x: 7 } }],
+		throws: ERRORS.MUST_CAPTURE,
+	},
+	{
+		title: `Make sure man piece performs capturing`,
+		input: board(`
+		_ _ _ _ _ _ _ _
+		_ _ _ _ _ _ _ _
+		_ _ _ _ _ _ _ _
+		_ _ _ _ _ _ _ _
+		_ _ _ d _ _ _ _
+		_ _ l _ _ _ _ _
+		_ _ _ _ _ _ _ _
+		_ _ _ _ _ _ _ _`),
+		moves: [{ from: { y: 5, x: 2 }, to: { y: 4, x: 1 } }],
+		throws: ERRORS.MUST_CAPTURE,
+	},
+	{
+		title: `Make sure man piece performs capturing`,
+		input: board(`
+		_ _ _ _ _ _ _ _
+		_ _ _ _ _ _ _ _
+		_ _ _ _ _ _ _ _
+		_ _ _ _ l _ _ _
+		_ _ _ d _ _ _ _
+		_ _ _ _ _ _ _ _
+		_ _ _ _ _ _ _ _
+		_ _ _ _ _ _ _ _`),
+		moves: [{ from: { y: 4, x: 3 }, to: { y: 5, x: 2 } }],
+		throws: ERRORS.MUST_CAPTURE,
+		turn: PIECE_COLOR.DARK,
+	},
+];
+
 export const EXPECTED_TO_FAIL = []
 	.concat(FROM_OOB)
 	.concat(TO_OOB)
@@ -467,4 +528,5 @@ export const EXPECTED_TO_FAIL = []
 	.concat(MOVEMENT_BACKWARDS)
 	.concat(NO_MOVEMENT)
 	.concat(WRONG_TURN_MOVEMENT)
-	.concat(JUMPING_OVER_ALLIES);
+	.concat(JUMPING_OVER_ALLIES)
+	.concat(MUST_CAPTURE);

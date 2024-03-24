@@ -10,6 +10,7 @@ export const ERRORS = {
 	MEN_NO_CAPTURE_LIMIT: 'MEN_NO_CAPTURE_LIMIT',
 	MEN_NO_MOVE_BACKWARDS: 'MEN_NO_MOVE_BACKWARDS',
 	NO_JUMP_ALLOWED: 'NO_JUMP_ALLOWED',
+	MUST_CAPTURE: 'MUST_CAPTURE',
 } as const;
 
 const ERROR_MESSAGES: Record<keyof typeof ERRORS, string> = {
@@ -24,4 +25,5 @@ const ERROR_MESSAGES: Record<keyof typeof ERRORS, string> = {
 	MEN_NO_CAPTURE_LIMIT: 'men cannot move further than 1 cell diagonally if not capturing',
 	MEN_NO_MOVE_BACKWARDS: 'men cannot move backward',
 	NO_JUMP_ALLOWED: 'cannot move over the same piece color',
+	MUST_CAPTURE: 'must perform a capture move',
 } as const;

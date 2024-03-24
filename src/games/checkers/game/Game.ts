@@ -1,5 +1,5 @@
 import { CheckersBoardManager, CheckersGame as CheckersGame, CheckersPiece } from '../types';
-import { FIRST_TURN_COLOR } from '../config';
+import { BOARD_SIZE, FIRST_TURN_COLOR } from '../config';
 import { Move, Position } from '../../types';
 import { Board } from '../board/Board';
 import { getPositionsBetween, isDiagonalMove, isFarMove, isInMenMoveRange, isMoved, isPositionInRange } from './utils';
@@ -37,7 +37,7 @@ export class Game implements CheckersGame {
 		this.turn = this.turn === PIECE_COLOR.DARK ? PIECE_COLOR.LIGHT : PIECE_COLOR.DARK;
 	}
 
-	private isJumpedOver(from: Position, to: Position): boolean {
+	private isJumpOverAlly(from: Position, to: Position): boolean {
 		return getPositionsBetween(from, to).some((movedOverPosition) => {
 			const movedOverPiece = this.board.get(movedOverPosition).piece;
 			return movedOverPiece ? this.turn === movedOverPiece.color : false;
@@ -52,8 +52,54 @@ export class Game implements CheckersGame {
 	}
 
 	private canCapture() {
-		// TODO: implement
-		return false;
+		const generateChecks = (position: Position, distance: number) => {
+			return Array.from({ length: distance })
+				.flatMap((_, i) => [
+					{
+						enemy: { y: position.y - i - 1, x: position.x + i + 1 },
+						slot: { y: position.y - i - 2, x: position.x + i + 2 },
+					},
+					{
+						enemy: { y: position.y - i - 1, x: position.x - i - 1 },
+						slot: { y: position.y - i - 2, x: position.x - i - 2 },
+					},
+					{
+						enemy: { y: position.y + i + 1, x: position.x + i + 1 },
+						slot: { y: position.y + i + 2, x: position.x + i + 2 },
+					},
+					{
+						enemy: { y: position.y + i + 1, x: position.x - i - 1 },
+						slot: { y: position.y + i + 2, x: position.x - i - 2 },
+					},
+				])
+				.filter((check) => {
+					return isPositionInRange(check.enemy) && isPositionInRange(check.slot);
+				});
+		};
+
+		const verifyChecks = (checks: ReturnType<typeof generateChecks>) => {
+			return checks.some((check) => {
+				if (this.board.get(check.enemy).piece === null) return false;
+				if (this.board.get(check.slot).piece !== null) return false;
+				if (this.board.get(check.enemy).piece.color === this.turn) return false;
+				return true;
+			});
+		};
+
+		return this.board.state().some((rows) => {
+			return rows.some((cell) => {
+				if (cell.piece === null) return false;
+				if (cell.piece.color !== this.turn) return false;
+
+				if (cell.piece.kind === PIECE_TYPE.MAN) {
+					return verifyChecks(generateChecks(cell, 1));
+				} else if (cell.piece.kind === PIECE_TYPE.KING) {
+					return verifyChecks(generateChecks(cell, BOARD_SIZE - 2));
+				} else {
+					return false;
+				}
+			});
+		});
 	}
 
 	private validateMove(from: Position, to: Position) {
@@ -96,8 +142,12 @@ export class Game implements CheckersGame {
 				throw new Error(ERRORS.MEN_NO_CAPTURE_LIMIT);
 			}
 		} else {
-			if (this.isJumpedOver(from, to)) {
+			if (this.isJumpOverAlly(from, to)) {
 				throw new Error(ERRORS.NO_JUMP_ALLOWED);
+			}
+
+			if (this.canCapture()) {
+				throw new Error(ERRORS.MUST_CAPTURE);
 			}
 		}
 	}
@@ -109,6 +159,8 @@ export class Game implements CheckersGame {
 			}
 		}
 
-		// TODO: check if MUST capture
+		if (this.canCapture()) {
+			throw new Error(ERRORS.MUST_CAPTURE);
+		}
 	}
 }
