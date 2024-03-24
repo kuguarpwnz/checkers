@@ -36,7 +36,7 @@ export class Game implements CheckersGame {
 				this.switchTurn();
 			}
 		} else {
-			this.validateRegularMove(from, to);
+			this.validateCloseMove(from, to);
 
 			this.movePiece(from, to);
 			this.switchTurn();
@@ -194,7 +194,7 @@ export class Game implements CheckersGame {
 		}
 	}
 
-	private validateRegularMove(from: Position, to: Position) {
+	private validateCloseMove(from: Position, to: Position) {
 		if (this.board.get(from).piece.kind === PIECE_TYPE.MAN) {
 			if (this.turn === PIECE_COLOR.LIGHT ? to.y > from.y : to.y < from.y) {
 				throw new Error(ERRORS.MEN_NO_MOVE_BACKWARDS);
