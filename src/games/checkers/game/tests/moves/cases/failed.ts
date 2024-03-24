@@ -1,6 +1,6 @@
 import { board } from './utils';
-import { ERRORS } from '../../errors';
-import { PIECE_COLOR } from '../../../constants';
+import { ERRORS } from '../../../errors';
+import { PIECE_COLOR } from '../../../../constants';
 
 const FROM_OOB = [
 	{

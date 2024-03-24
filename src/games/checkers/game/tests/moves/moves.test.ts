@@ -1,8 +1,9 @@
-import { describe, expect, test } from 'vitest';
-import { CheckersBoard } from '../../types';
-import { Board } from '../../board/Board';
-import { Game } from '../Game';
-import { toString } from '../../board/utils';
+import { describe, expect, test } from 'bun:test';
+
+import { CheckersBoard } from '../../../types';
+import { Board } from '../../../board/Board';
+import { Game } from '../../Game';
+import { toString } from '../../../board/utils';
 import { testCases } from './cases';
 
 const areBoardEqual = (a: CheckersBoard, b: CheckersBoard): boolean => {
@@ -65,7 +66,7 @@ describe('game sanity checks', () => {
 			console.log('Output:');
 			console.log(toString(output));
 
-			expect(areBoardEqual(output, args.output)).toBeTruthy();
+			expect(areBoardEqual(output, args.output)).toBeTrue();
 		} else if ('throws' in args) {
 			expect(run).toThrow(new Error(args.throws));
 		} else {

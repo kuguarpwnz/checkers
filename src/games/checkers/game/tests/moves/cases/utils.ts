@@ -1,6 +1,6 @@
-import { CheckersBoard } from '../../../types';
-import { PIECE_COLOR, PIECE_TYPE } from '../../../constants';
-import { Board } from '../../../board/Board';
+import { CheckersBoard } from '../../../../types';
+import { PIECE_COLOR, PIECE_TYPE } from '../../../../constants';
+import { Board } from '../../../../board/Board';
 
 export const board = (boardTemplate: string): CheckersBoard => {
 	const fakeBoard = boardTemplate

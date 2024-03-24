@@ -150,7 +150,7 @@ export class Game implements CheckersGame {
 				throw new Error(ERRORS.NO_JUMP_ALLOWED);
 			}
 
-			if (this.canCapture()) {
+			if (this.canCapture() && this.getCapturedPositions(from, to).length === 0) {
 				throw new Error(ERRORS.MUST_CAPTURE);
 			}
 		}

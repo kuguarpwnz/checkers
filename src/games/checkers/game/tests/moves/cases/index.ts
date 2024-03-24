@@ -1,7 +1,7 @@
 import { EXPECTED_TO_FAIL } from './failed';
 import { EXPECTED_TO_PASS } from './successful';
-import { CheckersBoard, CheckersCell, CheckersPiece } from '../../../types';
-import { Move } from '../../../../types';
+import { CheckersBoard, CheckersCell, CheckersPiece } from '../../../../types';
+import { Move } from '../../../../../types';
 
 type TestCaseInputs = {
 	title: string;
