@@ -25,7 +25,9 @@ export class Game implements CheckersGame {
 		if (isFarMove(from, to)) {
 			this.validateFarMove(from, to);
 
-			this.getCapturedPositions(from, to).forEach((capturedPosition) => this.board.capture(capturedPosition));
+			this.getCapturedPositions(from, to).forEach((capturedPosition) => {
+				this.board.capture(capturedPosition);
+			});
 			this.board.move(from, to);
 
 			if (this.canCapture() === false) {
