@@ -29,9 +29,7 @@ export class Game implements CheckersGame {
 		if (isFarMove(from, to)) {
 			this.validateFarMove(from, to);
 
-			this.getCapturedPositions(from, to).forEach((capturedPosition) => {
-				this.board.capture(capturedPosition);
-			});
+			this.captureMaybe(from, to);
 			this.board.move(from, to);
 
 			if (this.canCapture() === false) {
@@ -65,6 +63,12 @@ export class Game implements CheckersGame {
 		}, initialCounters);
 
 		return counters[PIECE_COLOR.DARK] === 0 || counters[PIECE_COLOR.LIGHT] === 0;
+	}
+
+	private captureMaybe(from: Position, to: Position) {
+		this.getCapturedPositions(from, to).forEach((capturedPosition) => {
+			this.board.capture(capturedPosition);
+		});
 	}
 
 	private switchTurn() {
