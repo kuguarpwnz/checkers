@@ -79,7 +79,7 @@ export class Game implements CheckersGame {
 	}
 
 	private canCapture() {
-		const verifyChecks = (moves: ReturnType<typeof generateAllCaptureMoves>) => {
+		const hasCaptureMoves = (moves: ReturnType<typeof generateAllCaptureMoves>) => {
 			return moves.some((move) => {
 				if (this.board.get(move.to).piece !== null) return false;
 				if (this.board.get(move.jumpOver).piece === null) return false;
@@ -94,9 +94,9 @@ export class Game implements CheckersGame {
 				if (cell.piece.color !== this.turn) return false;
 
 				if (cell.piece.kind === PIECE_TYPE.MAN) {
-					return verifyChecks(generateAllCaptureMoves(cell, 1));
+					return hasCaptureMoves(generateAllCaptureMoves(cell, 1));
 				} else if (cell.piece.kind === PIECE_TYPE.KING) {
-					return verifyChecks(generateAllCaptureMoves(cell, BOARD_SIZE - 2));
+					return hasCaptureMoves(generateAllCaptureMoves(cell, BOARD_SIZE - 2));
 				} else {
 					return false;
 				}
