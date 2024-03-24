@@ -15,9 +15,10 @@ import { ERRORS } from './errors';
 import { PIECE_COLOR, PIECE_TYPE } from '../constants';
 
 export class Game implements CheckersGame {
-	private board: CheckersBoardManager = new Board();
 	private turn: CheckersPiece['color'] = FIRST_TURN_COLOR;
 	private history = [] as Move<CheckersPiece>[];
+
+	constructor(private board: CheckersBoardManager) {}
 
 	move(from: Position, to: Position) {
 		this.validateMove(from, to);

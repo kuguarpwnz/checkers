@@ -39,9 +39,7 @@ describe('game sanity checks', () => {
 		// @ts-ignore
 		board.cells = args.input;
 
-		const game = new Game();
-		// @ts-ignore
-		game.board = board;
+		const game = new Game(board);
 
 		const run = () => {
 			if ('turn' in args) {
