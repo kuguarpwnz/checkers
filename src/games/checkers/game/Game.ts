@@ -33,6 +33,25 @@ export class Game implements CheckersGame {
 		this.history.push({ from, to, piece: this.board.get(to).piece });
 	}
 
+	hasFinished() {
+		const initialCounters = {
+			[PIECE_COLOR.DARK]: 0,
+			[PIECE_COLOR.LIGHT]: 0,
+		};
+
+		const counters = this.board.state().reduce((counters, row) => {
+			row.forEach((cell) => {
+				if (cell.piece) {
+					counters[cell.piece.color] += 1;
+				}
+			});
+
+			return counters;
+		}, initialCounters);
+
+		return counters[PIECE_COLOR.DARK] === 0 || counters[PIECE_COLOR.LIGHT] === 0;
+	}
+
 	private switchTurn() {
 		this.turn = this.turn === PIECE_COLOR.DARK ? PIECE_COLOR.LIGHT : PIECE_COLOR.DARK;
 	}
