@@ -11,6 +11,7 @@ export const ERRORS = {
 	MEN_NO_MOVE_BACKWARDS: 'MEN_NO_MOVE_BACKWARDS',
 	NO_JUMP_ALLOWED: 'NO_JUMP_ALLOWED',
 	MUST_CAPTURE: 'MUST_CAPTURE',
+	NO_CAPTURING_PIECE_CHANGE: 'NO_CAPTURING_PIECE_CHANGE',
 } as const;
 
 const ERROR_MESSAGES: Record<keyof typeof ERRORS, string> = {
@@ -26,4 +27,5 @@ const ERROR_MESSAGES: Record<keyof typeof ERRORS, string> = {
 	MEN_NO_MOVE_BACKWARDS: 'men cannot move backward',
 	NO_JUMP_ALLOWED: 'cannot move over the same piece color',
 	MUST_CAPTURE: 'must perform a capture move',
+	NO_CAPTURING_PIECE_CHANGE: 'capturing piece cannot be changed between moves',
 } as const;

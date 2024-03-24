@@ -411,7 +411,7 @@ const NO_MOVEMENT = [
 
 const WRONG_TURN_MOVEMENT = [
 	{
-		title: `Make sure piece is moved in its turn (dark)`,
+		title: `Makes sure piece is moved in its turn (dark)`,
 		input: board(`
 		_ _ _ _ _ _ _ _
 		_ _ _ _ _ _ _ _
@@ -425,7 +425,7 @@ const WRONG_TURN_MOVEMENT = [
 		throws: ERRORS.WRONG_TURN,
 	},
 	{
-		title: `Make sure piece is moved in its turn (light)`,
+		title: `Makes sure piece is moved in its turn (light)`,
 		input: board(`
 		_ _ _ _ _ _ _ _
 		_ _ _ _ _ _ _ _
@@ -443,7 +443,7 @@ const WRONG_TURN_MOVEMENT = [
 
 const JUMPING_OVER_ALLIES = [
 	{
-		title: `Make sure piece can't jump over an ally`,
+		title: `Makes sure piece can't jump over an ally`,
 		input: board(`
 		_ _ _ _ _ _ _ _
 		_ _ _ _ _ _ _ _
@@ -460,7 +460,7 @@ const JUMPING_OVER_ALLIES = [
 
 const MUST_CAPTURE = [
 	{
-		title: `Make sure king piece performs capturing`,
+		title: `Makes sure king piece performs capturing`,
 		input: board(`
 		_ _ _ _ _ _ _ _
 		_ _ _ _ _ _ d _
@@ -474,7 +474,7 @@ const MUST_CAPTURE = [
 		throws: ERRORS.MUST_CAPTURE,
 	},
 	{
-		title: `Make sure king piece performs capturing`,
+		title: `Makes sure king piece performs capturing`,
 		input: board(`
 		_ _ _ _ _ _ _ _
 		_ _ _ _ _ _ L _
@@ -488,7 +488,7 @@ const MUST_CAPTURE = [
 		throws: ERRORS.MUST_CAPTURE,
 	},
 	{
-		title: `Make sure man piece performs capturing`,
+		title: `Makes sure man piece performs capturing`,
 		input: board(`
 		_ _ _ _ _ _ _ _
 		_ _ _ _ _ _ _ _
@@ -502,7 +502,7 @@ const MUST_CAPTURE = [
 		throws: ERRORS.MUST_CAPTURE,
 	},
 	{
-		title: `Make sure man piece performs capturing`,
+		title: `Makes sure man piece performs capturing`,
 		input: board(`
 		_ _ _ _ _ _ _ _
 		_ _ _ _ _ _ _ _
@@ -518,6 +518,26 @@ const MUST_CAPTURE = [
 	},
 ];
 
+const KEEP_CAPTURING = [
+	{
+		title: `Makes sure the attacking piece is the same when capturing multiple pieces`,
+		input: board(`
+		_ _ _ _ _ _ _ _
+		_ _ _ _ _ _ _ _
+		_ D _ _ _ _ _ _
+		_ _ l _ _ _ _ _
+		_ _ _ _ _ _ _ _
+		_ _ _ _ d _ _ _
+		_ _ _ l _ _ _ _
+		_ _ _ _ _ _ _ _`),
+		moves: [
+			{ from: { y: 6, x: 3 }, to: { y: 4, x: 5 } },
+			{ from: { y: 3, x: 2 }, to: { y: 1, x: 0 } },
+		],
+		throws: ERRORS.NO_CAPTURING_PIECE_CHANGE,
+	},
+];
+
 export const EXPECTED_TO_FAIL = []
 	.concat(FROM_OOB)
 	.concat(TO_OOB)
@@ -529,4 +549,5 @@ export const EXPECTED_TO_FAIL = []
 	.concat(NO_MOVEMENT)
 	.concat(WRONG_TURN_MOVEMENT)
 	.concat(JUMPING_OVER_ALLIES)
-	.concat(MUST_CAPTURE);
+	.concat(MUST_CAPTURE)
+	.concat(KEEP_CAPTURING);

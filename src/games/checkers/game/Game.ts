@@ -1,7 +1,6 @@
 import { CheckersBoardManager, CheckersGame as CheckersGame, CheckersPiece } from '../types';
 import { BOARD_SIZE, FIRST_TURN_COLOR } from '../config';
 import { Move, Position } from '../../types';
-import { Board } from '../board/Board';
 import {
 	generateAllCaptureMoves,
 	getPositionsBetween,
@@ -13,6 +12,7 @@ import {
 } from './utils';
 import { ERRORS } from './errors';
 import { PIECE_COLOR, PIECE_TYPE } from '../constants';
+import { isEqual } from 'lodash';
 
 export class Game implements CheckersGame {
 	private turn: CheckersPiece['color'] = FIRST_TURN_COLOR;
@@ -44,7 +44,7 @@ export class Game implements CheckersGame {
 		this.history.push({ from, to, piece: this.board.get(to).piece });
 	}
 
-	hasFinished() {
+	isFinished() {
 		const initialCounters = {
 			[PIECE_COLOR.DARK]: 0,
 			[PIECE_COLOR.LIGHT]: 0,
@@ -107,6 +107,13 @@ export class Game implements CheckersGame {
 		});
 	}
 
+	private isCapturingPieceChanged(from: Position) {
+		if (this.history.length === 0) return false;
+		if (this.history.at(-1).piece.color !== this.turn) return false;
+		if (isEqual(this.history.at(-1).to, from)) return false;
+		return true;
+	}
+
 	private validateMove(from: Position, to: Position) {
 		if (isPositionInRange(from) === false) {
 			throw new Error(ERRORS.FROM_OOB);
@@ -154,6 +161,10 @@ export class Game implements CheckersGame {
 			if (this.canCapture() && this.getCapturedPositions(from, to).length === 0) {
 				throw new Error(ERRORS.MUST_CAPTURE);
 			}
+		}
+
+		if (this.isCapturingPieceChanged(from)) {
+			throw new Error(ERRORS.NO_CAPTURING_PIECE_CHANGE);
 		}
 	}
 

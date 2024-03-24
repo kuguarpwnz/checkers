@@ -20,5 +20,5 @@ export type CheckersBoardManager = {
 
 export type CheckersGame = {
 	move: (from: Position, to: Position) => void;
-	hasFinished: () => boolean;
+	isFinished: () => boolean;
 };
