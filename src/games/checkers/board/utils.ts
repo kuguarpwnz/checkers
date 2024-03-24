@@ -1,10 +1,9 @@
 import chalk from 'chalk';
+import { cloneDeep } from 'lodash';
 
 import { CheckersBoard } from '../types';
 
-export const copy = (board: CheckersBoard): CheckersBoard =>
-	// TODO: replace with _.copyDeep
-	board.map((row) => row.map((cell) => ({ ...cell, piece: cell.piece && { ...cell.piece } })));
+export const copy = (board: CheckersBoard): CheckersBoard => cloneDeep(board);
 
 export const toString = (board: CheckersBoard) => {
 	let result = '';
