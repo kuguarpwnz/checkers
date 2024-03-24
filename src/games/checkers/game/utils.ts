@@ -53,3 +53,7 @@ export const generateAllCaptureMoves = (position: Position, distance: number) =>
 			return isPositionInRange(check.over) && isPositionInRange(check.to);
 		});
 };
+
+export const isOnFirstRow = (position: Position) => position.y === 0;
+
+export const isOnLastRow = (position: Position) => position.y === BOARD_SIZE - 1;

@@ -14,6 +14,7 @@ export type CheckersBoard = Board<CheckersCell>;
 export type CheckersBoardManager = {
 	move: (from: Position, to: Position) => void;
 	capture: (position: Position) => void;
+	enthrone: (position: Position) => void;
 	get: (position: Position) => CheckersCell;
 	state: () => CheckersBoard;
 };

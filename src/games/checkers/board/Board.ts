@@ -26,8 +26,16 @@ export class Board implements CheckersBoardManager {
 		this.cells = board;
 	}
 
-	get(position: Position) {
-		return this.cells[position.y][position.x];
+	enthrone({ x, y }: Position) {
+		const board = copy(this.cells);
+
+		board[y][x].piece.kind = PIECE_TYPE.KING;
+
+		this.cells = board;
+	}
+
+	get({ x, y }: Position) {
+		return this.cells[y][x];
 	}
 
 	state() {

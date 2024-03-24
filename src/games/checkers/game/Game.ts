@@ -8,11 +8,14 @@ import {
 	isFarMove,
 	isInMenMoveRange,
 	isMoved,
+	isOnFirstRow,
+	isOnLastRow,
 	isPositionInRange,
 } from './utils';
 import { ERRORS } from './errors';
 import { PIECE_COLOR, PIECE_TYPE } from '../constants';
 import { isEqual } from 'lodash';
+import { COLOR } from '../../constants';
 
 export class Game implements CheckersGame {
 	private turn: CheckersPiece['color'] = FIRST_TURN_COLOR;
@@ -41,7 +44,8 @@ export class Game implements CheckersGame {
 			this.switchTurn();
 		}
 
-		this.history.push({ from, to, piece: this.board.get(to).piece });
+		this.enthroneMaybe(to);
+		this.recordMove(from, to);
 	}
 
 	isFinished() {
@@ -65,6 +69,20 @@ export class Game implements CheckersGame {
 
 	private switchTurn() {
 		this.turn = this.turn === PIECE_COLOR.DARK ? PIECE_COLOR.LIGHT : PIECE_COLOR.DARK;
+	}
+
+	private enthroneMaybe(to: Position) {
+		const piece = this.board.get(to).piece;
+
+		if (piece.kind === PIECE_TYPE.KING) return;
+		if (piece.color === COLOR.LIGHT && isOnFirstRow(to) === false) return;
+		if (piece.color === COLOR.DARK && isOnLastRow(to) === false) return;
+
+		this.board.enthrone(to);
+	}
+
+	private recordMove(from: Position, to: Position) {
+		this.history.push({ from, to, piece: this.board.get(to).piece });
 	}
 
 	private isJumpOverAlly(from: Position, to: Position): boolean {
