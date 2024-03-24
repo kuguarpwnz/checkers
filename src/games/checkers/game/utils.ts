@@ -21,10 +21,10 @@ export const getPositionsBetween = (from: Position, to: Position) => {
 	const positionsBetweenCount = Math.abs(from.x - to.x) - 1;
 
 	return Array.from({ length: positionsBetweenCount }).map((_, i) => {
-		const movedOverIndex = i + 1;
+		const betweenIndex = i + 1;
 		return {
-			x: from.x - deltaX * movedOverIndex,
-			y: from.y - deltaY * movedOverIndex,
+			x: from.x - deltaX * betweenIndex,
+			y: from.y - deltaY * betweenIndex,
 		};
 	});
 };
