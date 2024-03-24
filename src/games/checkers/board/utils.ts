@@ -28,7 +28,7 @@ export const toString = (board: CheckersBoard) => {
 
 			const backgroundColor = cell.color === 'dark' ? '#484848' : '#a3a3a3';
 			if (cell.piece) {
-				const cellColor = cell.piece.color === 'dark' ? '#a000d7' : '#ccff00';
+				const cellColor = cell.piece.color === 'dark' ? '#bb00ff' : '#ccff00';
 				result += chalk.bgHex(backgroundColor).hex(cellColor)(wrap(cell.piece.kind === 'man' ? '⛂' : '♜'));
 			} else {
 				result += chalk.bgHex(backgroundColor).hidden(wrap(' '));
