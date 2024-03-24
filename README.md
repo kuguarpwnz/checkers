@@ -16,6 +16,12 @@ Start the dev server:
 bun start
 ```
 
+Run unit tests:
+
+```bash
+bun test
+```
+
 Build the app for production:
 
 ```bash
@@ -28,7 +34,7 @@ Preview the Production build product:
 bun preview
 ```
 
-Clear persistent cache local files
+Clear persistent cache local files:
 
 ```bash
 bun clean

@@ -11,8 +11,7 @@
     "prettier": "^3.2.5",
     "solid-refresh": "^0.5.3",
     "vite": "^5.2.2",
-    "vite-plugin-solid": "^2.7.0",
-    "vitest": "^1.4.0"
+    "vite-plugin-solid": "^2.7.0"
   },
   "scripts": {
     "dev": "farm start",
