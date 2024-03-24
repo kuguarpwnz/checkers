@@ -30,7 +30,7 @@ export class Game implements CheckersGame {
 			this.validateFarMove(from, to);
 
 			this.captureMaybe(from, to);
-			this.board.move(from, to);
+			this.movePiece(from, to);
 
 			if (this.canCapture() === false) {
 				this.switchTurn();
@@ -38,11 +38,10 @@ export class Game implements CheckersGame {
 		} else {
 			this.validateRegularMove(from, to);
 
-			this.board.move(from, to);
+			this.movePiece(from, to);
 			this.switchTurn();
 		}
 
-		this.enthroneMaybe(to);
 		this.recordMove(from, to);
 	}
 
@@ -83,6 +82,11 @@ export class Game implements CheckersGame {
 		if (piece.color === COLOR.DARK && isOnLastRow(to) === false) return;
 
 		this.board.enthrone(to);
+	}
+
+	private movePiece(from: Position, to: Position) {
+		this.board.move(from, to);
+		this.enthroneMaybe(to);
 	}
 
 	private recordMove(from: Position, to: Position) {

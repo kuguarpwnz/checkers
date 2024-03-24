@@ -145,6 +145,32 @@ const ENTHRONING_PIECES = [
 		D _ _ _ _ _ _ _`),
 		turn: PIECE_COLOR.DARK,
 	},
+	{
+		title: `Makes sure piece can do far jump right after becoming a king`,
+		input: board(`
+		_ _ _ _ _ _ _ _
+		_ _ _ _ _ _ _ _
+		_ _ _ _ _ _ _ _
+		_ _ _ _ _ _ _ _
+		_ _ _ _ _ _ _ _
+		_ _ d _ _ _ l _
+		_ _ _ l _ _ _ _
+		_ _ _ _ _ _ _ _`),
+		moves: [
+			{ from: { y: 5, x: 2 }, to: { y: 7, x: 4 } },
+			{ from: { y: 7, x: 4 }, to: { y: 4, x: 7 } },
+		],
+		output: board(`
+		_ _ _ _ _ _ _ _
+		_ _ _ _ _ _ _ _
+		_ _ _ _ _ _ _ _
+		_ _ _ _ _ _ _ _
+		_ _ _ _ _ _ _ D
+		_ _ _ _ _ _ _ _
+		_ _ _ _ _ _ _ _
+		_ _ _ _ _ _ _ _`),
+		turn: PIECE_COLOR.DARK,
+	},
 ];
 
 export const EXPECTED_TO_PASS = [].concat(CAPTURING_MOVES).concat(ENTHRONING_PIECES);
