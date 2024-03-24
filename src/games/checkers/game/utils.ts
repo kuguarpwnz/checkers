@@ -18,9 +18,9 @@ export const getPositionsBetween = (from: Position, to: Position) => {
 	const deltaX = Math.sign(from.x - to.x);
 	const deltaY = Math.sign(from.y - to.y);
 
-	const movedOverPositionsLength = Math.abs(from.x - to.x) - 1;
+	const positionsBetweenCount = Math.abs(from.x - to.x) - 1;
 
-	return Array.from({ length: movedOverPositionsLength }).map((_, i) => {
+	return Array.from({ length: positionsBetweenCount }).map((_, i) => {
 		const movedOverIndex = i + 1;
 		return {
 			x: from.x - deltaX * movedOverIndex,
