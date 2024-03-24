@@ -82,8 +82,8 @@ export class Game implements CheckersGame {
 		const hasCaptureMoves = (moves: ReturnType<typeof generateAllCaptureMoves>) => {
 			return moves.some((move) => {
 				if (this.board.get(move.to).piece !== null) return false;
-				if (this.board.get(move.jumpOver).piece === null) return false;
-				if (this.board.get(move.jumpOver).piece.color === this.turn) return false;
+				if (this.board.get(move.over).piece === null) return false;
+				if (this.board.get(move.over).piece.color === this.turn) return false;
 				return true;
 			});
 		};
